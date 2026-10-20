@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "rx_engine/core/rx_ids"
+]
+
+resolver = "3"
