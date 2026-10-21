@@ -1,6 +1,6 @@
 [workspace]
 members = [
     "rx_engine/core/rx_ids"
-]
+, "rx_engine/core/rx_nodes", "rx_engine/core/rx_structs"]
 
 resolver = "3"
