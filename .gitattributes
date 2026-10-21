@@ -1,0 +1,7 @@
+# Handle all text files and force them to use Linux (LF) line endings on checkout
+* text=auto eol=lf
+
+# Explicitly ensure binary files are left completely untouched
+*.jpg binary
+*.png binary
+*.gif binary
