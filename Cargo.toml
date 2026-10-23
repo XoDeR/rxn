@@ -1,6 +1,13 @@
 [workspace]
 members = [
-    "rx_engine/core/rx_ids"
-, "rx_engine/core/rx_nodes", "rx_engine/core/rx_structs"]
+    "rx_engine/core/rx_ids", 
+    "rx_engine/core/rx_nodes", 
+    "rx_engine/core/rx_structs"
+]
 
 resolver = "3"
+
+[workspace.dependencies]
+rx_ids = { version = "0.1.0", path = "rx_engine/core/rx_ids" }
+rx_nodes = { version = "0.1.0", path = "rx_engine/core/rx_nodes" }
+rx_structs = { version = "0.1.0", path = "rx_engine/core/rx_structs" }
