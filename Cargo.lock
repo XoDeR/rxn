@@ -76,6 +76,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "scene_nodes"
+version = "0.1.0"
+dependencies = [
+ "rx_nodes",
+ "rx_runtime",
+ "rx_structs",
+]
+
+[[package]]
 name = "syn"
 version = "3.0.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
