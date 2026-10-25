@@ -974,6 +974,8 @@ name = "rx_app"
 version = "0.1.0"
 dependencies = [
  "rx_ids",
+ "rx_project",
+ "rx_runtime",
  "winit",
 ]
 
@@ -1002,6 +1004,7 @@ version = "0.1.0"
 dependencies = [
  "rx_ids",
  "rx_nodes",
+ "rx_project",
  "rx_structs",
 ]
 
