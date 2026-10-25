@@ -2,8 +2,12 @@
 members = [
     "rx_engine/core/rx_ids", 
     "rx_engine/core/rx_nodes", 
-    "rx_engine/core/rx_structs"
-, "rx_engine/runtime_project/rx_runtime", "examples/scene_nodes"]
+    "rx_engine/core/rx_structs",
+    "rx_engine/runtime_project/rx_runtime", 
+    "examples/scene_nodes", 
+    "rx_engine/render_stack/rx_app", 
+    "rx_engine/runtime_project/rx_project"
+]
 
 resolver = "3"
 
@@ -13,3 +17,4 @@ rx_nodes = { version = "0.1.0", path = "rx_engine/core/rx_nodes" }
 rx_structs = { version = "0.1.0", path = "rx_engine/core/rx_structs" }
 
 rx_runtime = { version = "0.1.0", path = "rx_engine/runtime_project/rx_runtime" }
+rx_project = { version = "0.1.0", path = "rx_engine/runtime_project/rx_project" }
