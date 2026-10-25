@@ -5,15 +5,111 @@ use winit::{dpi::Position, monitor::MonitorHandle};
 use winit::{
     dpi::{PhysicalPosition, PhysicalSize, Size},
     event::WindowEvent,
-    event_loop::{ActiveEventLoop, ControlFlow},
+    event_loop::{ActiveEventLoop, ControlFlow, EventLoop},
     window::{Fullscreen, Window, WindowAttributes},
 };
 
+use rx_project::ProjectConfig;
+
 const INITIAL_WINDOW_MONITOR_FRACTION: f32 = 0.75;
 
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum AppExitKind {
+    WindowClose,
+    EventLoopExit,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct AppExitResult {
+    pub kind: AppExitKind,
+}
+
+impl AppExitResult {
+    pub fn window_close() -> Self {
+        Self {
+            kind: AppExitKind::WindowClose,
+        }
+    }
+
+    pub fn event_loop_exit() -> Self {
+        Self {
+            kind: AppExitKind::EventLoopExit,
+        }
+    }
+
+    pub fn is_success(&self) -> bool {
+        true
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct AppExitError {
+    pub message: String,
+}
+
+impl std::fmt::Display for AppExitError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str(&self.message)
+    }
+}
+
+impl std::error::Error for AppExitError {}
+
+pub struct WinitRunner;
+
+impl WinitRunner {
+    pub fn new() -> Self {
+        Self
+    }
+
+    pub fn run(self, config: ProjectConfig) -> Result<AppExitResult, AppExitError> {
+        let event_loop = EventLoop::new().map_err(|err| AppExitError {
+            message: format!("failed to create winit event loop: {err}"),
+        })?;
+        let mut state = RunnerState::new(config);
+        #[cfg(not(target_arch = "wasm32"))]
+        {
+            event_loop.run_app(&mut state).map_err(|err| AppExitError {
+                message: format!("winit event loop failed: {err}"),
+            })?;
+            Ok(state
+                .exit_result
+                .take()
+                .unwrap_or_else(AppExitResult::event_loop_exit))
+        }
+        #[cfg(target_arch = "wasm32")]
+        {
+            use winit::platform::web::EventLoopExtWebSys;
+            event_loop.spawn_app(state);
+            Ok(AppExitResult::event_loop_exit())
+        }
+    }
+
+    pub fn event_loop_type_name() -> &'static str {
+        std::any::type_name::<EventLoop<()>>()
+    }
+}
+
+impl Default for WinitRunner {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 struct RunnerState {
-    config: rx_project::ProjectConfig,
+    config: ProjectConfig,
     window: Option<Arc<Window>>,
+    exit_result: Option<AppExitResult>,
+}
+
+impl RunnerState {
+    fn new(config: ProjectConfig) -> Self {
+        Self {
+            config,
+            window: None,
+            exit_result: None,
+        }
+    }
 }
 
 impl winit::application::ApplicationHandler for RunnerState {
@@ -49,6 +145,7 @@ impl winit::application::ApplicationHandler for RunnerState {
 
         match event {
             WindowEvent::CloseRequested => {
+                self.exit_result = Some(AppExitResult::window_close());
                 event_loop.exit();
             }
             _ => {}
