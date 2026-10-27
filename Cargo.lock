@@ -999,6 +999,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "rx_render_bridge"
+version = "0.1.0"
+dependencies = [
+ "rx_ids",
+ "rx_structs",
+]
+
+[[package]]
 name = "rx_runtime"
 version = "0.1.0"
 dependencies = [
