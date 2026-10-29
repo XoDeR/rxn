@@ -3,9 +3,7 @@ use rx_runtime::RuntimeInner;
 use rx_structs::Vector2;
 
 fn main() {
-    let mut runtime = RuntimeInner {
-        nodes: Default::default(),
-    };
+    let mut runtime = RuntimeInner::new();
 
     // Root node
     let mut root = SceneNode::new(Node2D::new().into());

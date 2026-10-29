@@ -10,3 +10,4 @@ rx_ids.workspace = true
 rx_nodes.workspace = true
 rx_structs.workspace = true
 rx_project.workspace = true
+rx_runtime_render.workspace = true

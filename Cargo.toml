@@ -8,7 +8,7 @@ members = [
     "examples/window",
     "rx_engine/render_stack/rx_app", 
     "rx_engine/runtime_project/rx_project"
-, "rx_engine/render_stack/rx_render_bridge"]
+, "rx_engine/render_stack/rx_render_bridge", "rx_engine/runtime_project/rx_runtime_render"]
 
 resolver = "3"
 
